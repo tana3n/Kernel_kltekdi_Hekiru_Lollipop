@@ -228,6 +228,7 @@ CONFIG_MMC_BLOCK_DEFERRED_RESUME=y
 CONFIG_SAMP_HOTNESS=y
 
 # kltekdi_Hekiru_Lollipop
+CONFIG_LOCALVERSION="kltekdi_Hekiru_Lollipop_V0.1"
 
 # Intelliplug
 # CONFIG_INTELLI_PLUG is not set
