@@ -16,11 +16,11 @@ unsigned int y_hi = (1850 / 20) * 19;
 unsigned long last_touch_time = 0;
 unsigned int wake_start = 0;
 bool screen_is_off = false;
-unsigned int screen_wake_options = 0; // 0 = disabled; 1 = s2w; 2 = s2w only while charging; 3 = dtap2wake; 4 = dtap2wake only while charging; 5 = both; 6 = both while charging
+unsigned int screen_wake_options = 3; // 0 = disabled; 1 = s2w; 2 = s2w only while charging; 3 = dtap2wake; 4 = dtap2wake only while charging; 5 = both; 6 = both while charging
 unsigned int screen_wake_options_prox_max = 55;
 unsigned int screen_wake_options_debug = 0;
 unsigned int screen_wake_options_when_off = 0;
-unsigned int screen_sleep_options = 0; // 0 = disabled; 1 = dtap2sleep
+unsigned int screen_sleep_options = 1; // 0 = disabled; 1 = dtap2sleep
 
 void screenwake_setdev(struct qpnp_pon * pon)
 {
@@ -111,7 +111,7 @@ void check_touch_off(int x, int y, unsigned char state, unsigned char touch_coun
 		if (last_touch_time)
 		{
 			if (screen_wake_options_debug) pr_alert("DOUBLE TAP WAKE TOUCH %d-%d-%ld-%ld-%d\n", x, y, jiffies, last_touch_time, touch_count);
-			if (!touch_count && jiffies_to_msecs(jiffies - last_touch_time) < 2000) //(x < x_lo) && (y > y_hi) && //jiffies_to_msecs(jiffies - last_touch_time) > 50
+			if (!touch_count && jiffies_to_msecs(jiffies - last_touch_time) < 350) //(x < x_lo) && (y > y_hi) && //jiffies_to_msecs(jiffies - last_touch_time) > 50
 			{
 				if (screen_wake_options_debug) pr_alert("DOUBLE TAP WAKE POWER BTN CALLED %d-%d\n", x, y);
 				pwr_trig_fscreen();
@@ -139,7 +139,7 @@ void check_touch_on(int x, int y, unsigned char state, unsigned char touch_count
 		if (last_touch_time)
 		{
 			if (screen_wake_options_debug) pr_alert("DOUBLE TAP SLEEP TOUCH %d-%d-%ld-%ld-%d\n", x, y, jiffies, last_touch_time, touch_count);
-			if (!touch_count && (y < 100) && jiffies_to_msecs(jiffies - last_touch_time) < 1000) //(x < x_lo) && (y > y_hi) && //jiffies_to_msecs(jiffies - last_touch_time) > 50
+			if (!touch_count && (y < 100) && jiffies_to_msecs(jiffies - last_touch_time) < 350) //(x < x_lo) && (y > y_hi) && //jiffies_to_msecs(jiffies - last_touch_time) > 50
 			{
 				if (screen_wake_options_debug) pr_alert("DOUBLE TAP SLEEP POWER BTN CALLED %d-%d\n", x, y);
 				pwr_trig_fscreen();
